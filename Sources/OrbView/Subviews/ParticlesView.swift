@@ -134,6 +134,20 @@ class ParticleScene: SKScene {
         NSBezierPath(ovalIn: CGRect(origin: .zero, size: size)).fill()
         image.unlockFocus()
         return SKTexture(image: image)
+        #elseif os(watchOS)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        guard let context = UIGraphicsGetCurrentContext() else {
+            fatalError("Unable to create graphics context")
+        }
+
+        context.setFillColor(UIColor.white.cgColor)
+        let circleRect = CGRect(origin: .zero, size: size)
+        context.fillEllipse(in: circleRect)
+        guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
+            fatalError("Unable to get image from graphics context")
+        }
+        UIGraphicsEndImageContext()
+        return SKTexture(image: image)
         #else
         let renderer = UIGraphicsImageRenderer(size: size)
         let image = renderer.image { context in
@@ -168,9 +182,13 @@ struct ParticlesView: View {
     
     var body: some View {
         GeometryReader { geometry in
+            #if os(watchOS)
+            SpriteView(scene: scene)
+            #else
             SpriteView(scene: scene, options: [.allowsTransparency])
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .ignoresSafeArea()
+            #endif
         }
     }
 }
