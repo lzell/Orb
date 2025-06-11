@@ -1,3 +1,6 @@
+This is a fork of [metasidd/Orb](https://github.com/metasidd/Orb) with support for macOS and watchOS.
+The macOS support is from [itssali/Orb](https://github.com/itssali/Orb/tree/macOS-Support).
+
 <p align="center">
   <a href="https://github.com/metasidd/Orb">
     <img src="https://img.shields.io/github/v/release/metasidd/Orb?style=flat&label=Swift%20Package%20Index&color=red"/>
